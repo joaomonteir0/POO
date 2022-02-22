@@ -1,4 +1,3 @@
-package Aula2;
 
 import java.util.Scanner;
 // velocidade média de transporte de A para B
@@ -19,7 +18,7 @@ public class ex5 {
         System.out.print("Tempo da segunda metade (segundos) ~> ");
         double t2 = sc.nextDouble();
 
-        double vm = (d1+d2)/(t1+t2);
+        double vm = (d1 + d2) / (t1 + t2);
         System.out.println("Velocidade média: " + vm + " m/s");
         sc.close();
     }

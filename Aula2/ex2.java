@@ -1,4 +1,3 @@
-package Aula2;
 
 import java.util.Scanner;
 // Lê em valor real em célsius e passa para Fahrenheit
