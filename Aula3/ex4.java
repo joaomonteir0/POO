@@ -34,6 +34,7 @@ public class ex4 {
         System.out.println(max);
         System.out.println(average);
 
+
         sc.close();
 
     }
