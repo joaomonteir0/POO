@@ -14,7 +14,6 @@ public class ex8 {
         }
         
         for(int i = 0; i<16;i++){
-            double nota = Math.random() * 20;
             notas[i][2] = notas[i][0]*0.4 + notas[i][1]*0.6;
         }
         System.out.println("NotaT \t NotaP \t Pauta");
