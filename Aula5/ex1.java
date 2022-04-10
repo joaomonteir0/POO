@@ -1,4 +1,3 @@
-package exercicios;
 import poo.Date;
 import java.util.Scanner;
 

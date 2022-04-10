@@ -1,4 +1,3 @@
-import exercicios.*;
 import java.util.Scanner;
 public class teste {
 
