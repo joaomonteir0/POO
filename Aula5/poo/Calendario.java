@@ -1,85 +1,112 @@
 package poo;
 
 public class Calendario {
-    int ano;
-    int dia;
+    private int year, day;
 
-    public Calendario(int ano, int dia){
-        this.ano = ano;
-        this.dia = dia;
+    public Calendario(int year, int day) {
+        this.year = year;
+        this.day = day;
+        assert isValid(year, day);
+
+    }
+    
+    public int getYear() {
+        return this.year;
     }
 
-    public int year(){
-        return ano;
+    public boolean isValid(int year, int day) {
+        if (year < 1) {
+            return false;
+        }
+        if (day < 1 || day > 7) {
+            return false;
+        }
+        return true;
     }
 
-    public int firstWeekdayOfYear(){
-        return dia;
+    public int getDayofWeek() {
+        return this.day;
     }
 
-    public void firstWeekdayOfMonth(int month){
-        resultados(month);
+    public int firstWeekdayOfMonth(int month) {
+        int firstWeekday = this.day;
+        for (int i = 1; i < month; i++) {
+            firstWeekday += Date.monthDias_2(i);
+        }
+        return firstWeekday % 7 == 0 ? 7 : firstWeekday % 7;
+
     }
 
-    public int dias(int mes, int ano){
-        int d = 0;
-        switch(mes){
-            case 1: case 3: case 5: case 6: case 8: case 10: case 12:
-                d = 31;
-                break;
-            case 4: case 7: case 9: case 11:
-                d = 30;
-                break;
+    public String monthName(int month) {
+
+        switch (month) {
+
+            case 1:
+                return "January";
             case 2:
-                if((ano % 400 == 0) || ((ano % 4 == 0) && (ano % 100 != 0))){
-                    d = 29;
-                }else{
-                    d = 28;
-            }
+                return "February";
+            case 3:
+                return "March";
+            case 4:
+                return "April";
+            case 5:
+                return "May";
+            case 6:
+                return "June";
+            case 7:
+                return "July";
+            case 8:
+                return "August";
+            case 9:
+                return "September";
+            case 10:
+                return "October";
+            case 11:
+                return "November";
+            case 12:
+                return "December";
+            default:
+                return "Invalid";
+
         }
-        return d;
     }
 
-    public void resultados(int month){
-        String[] meses = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        String date = String.format("%s %s", meses[month-1], ano);
-        for (int i = 0; i < (20 - date.length())/2; i++){
-            System.out.print(" ");
+    public void printMonth(int month) {
+        int firstWeekday = this.firstWeekdayOfMonth(month);
+        int monthDays = Date.monthDias_2(month);
+        String monthName = monthName(month);
+
+        int monthNameLength = monthName.length();
+        int yearlength = String.valueOf(year).length();
+        int padding = (20 - monthNameLength - yearlength) / 2;
+        String paddingString = "";
+
+        for (int i = 0; i < padding; i++) {
+            paddingString += " ";
         }
-        System.out.println(date);
+
+        System.out.println(paddingString + monthName + " " + year + paddingString);
         System.out.println("Su Mo Tu We Th Fr Sa");
 
-        int daycount = 1, controlo = 0;
-        for (int s = 0; s < 6; s++) {
-            String calendario[][] = new String[1][7];
-            for (int ds = 0; ds < 7; ds++){
-                if (controlo == 0) {
-                    controlo++;
-                    ds = dia - 2;
-                } else {
-                    if (daycount > 31) {
-                        break;
-                    }
-                    calendario[0][ds] = Integer.toString(daycount);
-                    daycount++;
-                }
-            }
-            for (int a = 0; a < 7; a++){
-                if (calendario[0][a] == null){
-                    calendario[0][a] = "";
-                }
-            }
-            }
-            String dias = " ";
-            if(dia == 1){
-                int [] diasToPrint = new int [31];
-                int len = 0;
-                for(int k = 1; k< dias(1,ano); k++){
-                    diasToPrint[k] = k;
-                    len++;
-                }
-                dias+=String.format("%2s %2s %2s %2s %2s %2s\n", 1, 2, 3, 4, 5,6);
-                System.out.println(dias);
+        for (int i = 1; i < firstWeekday; i++) {
+            System.out.print("   ");
         }
+        for (int i = 1; i <= monthDays; i++) {
+            System.out.printf("%3d", i);
+            if ((i + firstWeekday - 1) % 7 == 0 || i == monthDays) {
+                System.out.println();
+            }
+        }
+    }
+
+    public String toString() {
+        for (int i = 1; i <= 12; i++) {
+            printMonth(i);
+            if (i != 12) {
+                System.out.println();
+            }
+        }
+        return "Calendar of " + this.year;
+
     }
 }
