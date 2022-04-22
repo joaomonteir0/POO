@@ -1,6 +1,6 @@
 package classes;
 import java.util.ArrayList;
-
+    
 public class Conjunto {
     private ArrayList<Integer> conjunto = new ArrayList<>();
 
@@ -57,7 +57,7 @@ public class Conjunto {
         return uniao;
     }
 
-    public Conjunto interset(Conjunto inter){
+    public Conjunto intersect(Conjunto inter){
         Conjunto res = new Conjunto();
         for (int a = 0; a < conjunto.size(); a++) {
             for (int b = 0; b < inter.size(); b++) {
@@ -71,10 +71,10 @@ public class Conjunto {
 
     @Override
     public String toString(){
-        String res = "";
+        String txt = "";
         for(int i = 0; i < conjunto.size(); i++){
-            res += conjunto.get(i) + " ";
+            txt += conjunto.get(i) + " ";
         }
-        return res;
+        return txt;
     }
 }
