@@ -36,6 +36,10 @@ public class Circulo extends Forma {
         this.area = Math.PI * (Math.pow(this.getRaio(), 2));
     }
 
+    public void setPerimetro(){
+        this.perimetro = 2*Math.PI*this.getRaio();
+    }
+
     public boolean isValid() {
         return this.getRaio() > 0;
     }

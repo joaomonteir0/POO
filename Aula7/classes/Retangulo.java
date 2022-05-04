@@ -19,6 +19,10 @@ public class Retangulo extends Forma {
         this.perimetro = comprimento * 2 + altura * 2;
     }
 
+    public void setC(double c){
+        this.comprimento = c;
+    }
+
     public double getPerimetro() {
         return this.perimetro;
     }
