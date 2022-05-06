@@ -10,7 +10,7 @@ public abstract class Forma {
 
     public abstract boolean isValid();
 
-    public void setCor(Strinc cor) {
+    public void setCor(String cor) {
         this.cor = cor;
     }
 
