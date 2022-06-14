@@ -1,134 +1,73 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.*;
-import java.util.stream.*;
-import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
+import classes.*;
 public class Ex2 {
-    public static PrintWriter printWriter;
-    public static Scanner input;
-
+    public static PrintWriter file;
+    public static Scanner sc;
     public static void main(String[] args) throws FileNotFoundException {
-        // a
-        ArrayList<Voo> ListaVoos = new ArrayList<>();
         Map<String, String> companhias = new HashMap<>();
-        input = new Scanner(new File("companhias.txt"));
-        while (input.hasNextLine()) {
-            String[] match = input.nextLine().split("\t");
-            for (int i = 0; i < match.length; i++) {
-                companhias.put(match[0], match[1]);
+        sc =  new Scanner(new File("companhias.txt"));
+        while(sc.hasNextLine()){
+            String linha = sc.nextLine();
+            String[] dados = linha.split("\t");
+            for(int i = 0; i < dados.length; i++){
+                companhias.put(dados[0], dados[1]);
             }
         }
-        input.close();
-        input = new Scanner(new File("voos.txt"));
-        while (input.hasNextLine()) {
-            String[] match = input.nextLine().split("\t");
-            String comp = match[1].substring(0, 2);
-            try {
-                ListaVoos.add(new Voo(match[0], match[1], companhias.get(comp), match[2], match[3]));
-            } catch (ArrayIndexOutOfBoundsException ArrayIndexOutOfBoundsException) {
-                ListaVoos.add(new Voo(match[0], match[1], companhias.get(comp), match[2]));
-            }
-        }
-        input.close();
-        System.out.printf("%-7s %-10s %-20s %-20s %-10s %-15s\n", "Hora", "Voo", "Companhia", "Origem", "Atraso",
-                "Obs");
-        for (int i = 0; i < ListaVoos.size(); i++) {
-            String AtrasoString = ListaVoos.get(i).getAtraso();
-            String ObsString = "Previsto : " + ListaVoos.get(i).getObs();
-            if (ListaVoos.get(i).getAtraso().equals("")) {
-                AtrasoString = "";
-            }
-            if (ListaVoos.get(i).getObs().equals("")) {
-                ObsString = "";
-            }
-            System.out.printf("%-7s %-10s %-20s %-20s %-10s %-15s\n", ListaVoos.get(i).getHora(),
-                    ListaVoos.get(i).getVoo(),
-                    ListaVoos.get(i).companhia, ListaVoos.get(i).getOrigem(), AtrasoString, ObsString);
-        }
-        // b
-        printWriter = new PrintWriter(new File("Infopublico.txt"));
-        printWriter.printf("%-7s %-10s %-20s %-20s %-10s %-15s\n", "Hora", "Voo", "Companhia", "Origem", "Atraso",
-                "Obs");
-        for (int i = 0; i < ListaVoos.size(); i++) {
-            String AtrasoString = ListaVoos.get(i).getAtraso();
-            String ObsString = "Previsto : " + ListaVoos.get(i).getObs();
-            if (ListaVoos.get(i).getAtraso().equals("")) {
-                AtrasoString = "";
-            }
-            if (ListaVoos.get(i).getObs().equals("")) {
-                ObsString = "";
-            }
-            printWriter.printf("%-7s %-10s %-20s %-20s %-10s %-15s\n", ListaVoos.get(i).getHora(),
-                    ListaVoos.get(i).getVoo(),
-                    ListaVoos.get(i).companhia, ListaVoos.get(i).getOrigem(), AtrasoString, ObsString);
-        }
-        printWriter.close();
-        // c
-        Map<String, double[]> MapAtrasos = new LinkedHashMap<>();
-        for (Voo fly : ListaVoos) {
-            if (!fly.getAtraso().equals("")) {
-                MapAtrasos.putIfAbsent(fly.getCompanhia(), new double[] { 0, 0 });
-                String[] atrasoSplit = fly.getAtraso().split("\\W");
-                double d = Double.parseDouble(atrasoSplit[0]) * 60 + Double.parseDouble(atrasoSplit[1]);
-                double mk = MapAtrasos.get(fly.getCompanhia())[0] * MapAtrasos.get(fly.getCompanhia())[1];
-                MapAtrasos.get(fly.getCompanhia())[0] = (mk + d) / (MapAtrasos.get(fly.getCompanhia())[1] + 1);
-                MapAtrasos.get(fly.getCompanhia())[1]++;
-            }
-        }
-        Map<String, double[]> sortedMap = MapAtrasos.entrySet().stream()
-                .sorted(Comparator.comparingDouble(e -> e.getValue()[0])).collect(Collectors.toMap(
-                        Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
-                            throw new AssertionError();
-                        }, LinkedHashMap::new));
-        System.out.println("\n");
-        System.out.printf("%-20s %-7s\n", "Companhia", "Atraso Médio");
-        for (Entry<String, double[]> element : sortedMap.entrySet()) {
-            String mediaString;
+        System.out.println(companhias);
+        sc.close();
 
-            if ((double) element.getValue()[0] / 60 < 10) {
-                if (element.getValue()[0] % 60 < 10) {
-                    mediaString = "0" + Integer.toString((int) element.getValue()[0] / 60) + ":0"
-                            + Integer.toString((int) element.getValue()[0] % 60);
-                } else {
-                    mediaString = "0" + Integer.toString((int) element.getValue()[0] / 60) + ":"
-                            + Integer.toString((int) element.getValue()[0] % 60);
+        //b
+        ArrayList<Voo> voos = new ArrayList<>();
+        sc = new Scanner(new File("voos.txt"));
+        String title = sc.nextLine();
+        while(sc.hasNextLine()){
+            String linha = sc.nextLine();
+            String[] dados = linha.split("\t");
+            Voo novo;
+            String atraso = " ";
+            String companhia = " ";
+            for(int i = 0; i < dados.length;i++){
+                if(dados.length < 4){
+                    atraso = " ";
+                }else{
+                    atraso = dados[3];
                 }
-            } else {
-                if (element.getValue()[0] % 60 < 10) {
-                    mediaString = Integer.toString((int) element.getValue()[0] / 60) + ":0"
-                            + Integer.toString((int) element.getValue()[0] % 60);
-                } else {
-                    mediaString = Integer.toString((int) element.getValue()[0] / 60) + ":"
-                            + Integer.toString((int) element.getValue()[0] % 60);
+                String sigla = ""+dados[1].charAt(0)+dados[1].charAt(1)+"";
+                companhia = companhias.get(sigla);
+            }
+            voos.add (new Voo(dados[0], dados[1],companhia, dados[2],atraso, " "));
+        }
+        file = new PrintWriter(new File("Infopublico.txt"));
+        file.printf("%-7s %-10s %-20s %-20s %-10s %-15s\n", "Hora", "Voo", "Companhia", "Origem", "Atraso", "Obs");
+        for(int i = 0; i < voos.size(); i++){
+            file.printf("%-7s %-10s %-20s %-20s %-10s %-15s\n", voos.get(i).getHora(), voos.get(i).getVoo(), voos.get(i).getCompanhia(), voos.get(i).getOrigem(), voos.get(i).getAtraso(), voos.get(i).getObs()); 
+        }
+
+        //c
+        Map<String, Integer> atrasos = new HashMap<>();
+        double totalAtraso = 0;
+        for(Voo fly : voos){
+            String companhia = fly.getCompanhia();
+            System.out.println(companhia);
+            if(companhia != null){
+                String sigla = ""+companhia.charAt(0)+companhia.charAt(1)+"";
+                int atraso = fly.getAtrasoInt();
+                if(atraso > 0){
+                    totalAtraso+=atraso;
+                    System.out.println(sigla + atraso);
+                    atrasos.put(sigla, atraso);  
                 }
             }
-            System.out.printf("%-20s %-7s\n", element.getKey(), mediaString);
         }
-        // d
-        Map<String, Integer> VooNumb = new HashMap<>();
-        for (Voo fly : ListaVoos) {
-            VooNumb.putIfAbsent(fly.getOrigem(), 0);
-            int n = VooNumb.get(fly.getOrigem()) + 1;
-            VooNumb.put(fly.getOrigem(), n);
-        }
-        Map<String, Integer> sortedMapD = VooNumb.entrySet().stream()
-                .sorted(Comparator.comparingInt(e -> -e.getValue()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (a, b) -> {
-                            throw new AssertionError();
-                        },
-                        LinkedHashMap::new));
-        System.out.println("\n");
-        System.out.printf("%-20s %-7s\n", "Origem", "Voos");
-        for (Entry<String, Integer> element : sortedMapD.entrySet()) {
-            System.out.printf("%-20s %-5s\n", element.getKey(), element.getValue());
-        }
+        System.out.println(atrasos);
+
+
+
     }
 }
