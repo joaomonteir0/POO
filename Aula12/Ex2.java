@@ -51,10 +51,10 @@ public class Ex2 {
             } 
         });
         file.printf("%-40s %-10s %-10s %-10s %-15s\n", "name", "score", "rating", "gender", "running time");
-        PrintWriter printwriter = new PrintWriter(file);
         for(int i = 0; i < selectedMovies.size(); i++){
-            printwriter.printf("%s\t%s\t%s\t%s\t%s",selectedMovies.get(i).getName(), selectedMovies.get(i).getScore(),selectedMovies.get(i).getRating(), selectedMovies.get(i).getGender(), selectedMovies.get(i).getRunningTime());
+            file.printf("%-40s %-10s %-10s %-10s %-15s\n",selectedMovies.get(i).getName(), selectedMovies.get(i).getScore(),selectedMovies.get(i).getRating(), selectedMovies.get(i).getGender(), selectedMovies.get(i).getRunningTime());
         }
+        file.close();
         printlist(selectedMovies);
         
     }
