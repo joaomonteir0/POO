@@ -18,8 +18,12 @@ public class Person {
         bilhetes.add(bilhete);
     }
 
-    public String getBilhete(int i){
-        return bilhetes.get(i);
+    public void getBilhetes(){
+        String retorno = "";
+        for(int i =0; i < bilhetes.size();i++){
+            retorno+=bilhetes.get(i)+"\n";
+        }
+        System.out.println(getName()+" - nº bilhetes: "+bilhetes.size()+"\n"+retorno);
     }
 
     public boolean getBilhetesSize(){

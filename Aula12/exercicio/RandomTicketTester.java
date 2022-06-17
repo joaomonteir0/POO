@@ -24,7 +24,7 @@ public class RandomTicketTester {
                 festivais.put(dados[2], dados[4]);
             }
         }
-        System.out.println(festivais);
+        System.out.println("Antes do sorteio: "+festivais);
         sc.close();
 
         RandomTickets tickets = new RandomTickets(r, festivais);
@@ -35,7 +35,11 @@ public class RandomTicketTester {
             int ri = (int) (Math.random()*r.size());
             tickets.getRandomTicket(r.get(ri));
         }
-
+        
+        System.out.println("Depois do sorteiro: " +festivais);
+        for(Person i : r){
+            i.getBilhetes();
+        }
         /*ticket.listPersons();
         ticket.listAvailableTickets();
         */

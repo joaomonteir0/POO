@@ -16,17 +16,17 @@ public class RandomTickets {
             for(String key: bilhetes.keySet()){
                 lista.add(key);
             }
-            System.out.println("Lista "+ lista);
+            //System.out.println("Lista "+ lista);
 
             int sortearBilhete = (int) (Math.random()*lista.size());
             String resultado = lista.get(sortearBilhete);
             String bilhetesAntes = bilhetes.get(resultado);
             int atualizar = Integer.parseInt(bilhetesAntes) -1;
             bilhetes.put(resultado, String.valueOf(atualizar));
-            System.out.println("Bilhete sorteado " + resultado + " Bilhetes antes"+bilhetesAntes+"/"+atualizar+"agora");
+            //System.out.println("Bilhete sorteado " + resultado + " Bilhetes antes"+bilhetesAntes+"/"+atualizar+"agora");
             person.addBilhete(resultado);
         }else{
-            System.out.println("Já tem dois bilhetes sorteados");
+            //System.out.println("Já tem dois bilhetes sorteados");
         }
             
     }
